@@ -1,8 +1,11 @@
 const express = require("express");
-const Joi = require("Joi");
 const app = express();
-const PORT = 3000;
-
+// if want to connect with local npm install cors
+const cors = require("cors");
+app.use(express.json());
+app.use(express.static("public"));
+app.use(cors());
+const PORT =3000;
 const persons = [
     {   
         id: 1,
@@ -21,24 +24,11 @@ const persons = [
 
 let GlobalPersonCount = persons.length;
 
-app.use(express.json());
 app.listen(PORT, () => {
     console.log("[+] Listening on port: ", PORT);
 });
 
 app.post("/persons/", (request, response) =>{
-    const addingPersonSchema = Joi.object({
-        name: Joi.string().required(),
-        surname: Joi.string().required(),
-        age: Joi.number().required()
-    });
-
-    const {error, value} = addingPersonSchema.validate(request.body);
-    if (error) {
-        response.status(400).send(error.details[0].message);
-        return;
-    }
-
     const person = {
         id: GlobalPersonCount + 1,
         name: request.body.name,

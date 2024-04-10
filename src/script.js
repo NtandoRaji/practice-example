@@ -1,31 +1,67 @@
+const nameTxt = document.getElementById("personName");
+const surnameTxt = document.getElementById("personSurname");
+const ageTxt = document.getElementById("personAge");
+const addPersonBtn = document.getElementById("addPersonbutton");
+const personDisplayTxt = document.getElementById("personDisplayTxt");
+const displayBtn = document.getElementById("displayPersonButton");
+const nameDisplay = document.getElementById("nameDisplay");
+const surnameDisplay = document.getElementById("surnameDisplay");
+const ageDisplay = document.getElementById("ageDisplay");
+const baseUrl = "http://localhost:3000";
 
+addPersonBtn.addEventListener("click", (e) =>{
+     addPerson();
+ } );
 
-document.getElementById("addPersonbutton").addEventListener("click", (event) => {
-    addPerson();
-});
+displayBtn.addEventListener("click", (e) =>{
+    getPerson();
+}
+    );
 
+function getPerson(){
+    const name = personDisplayTxt.value;
+    if (name == ""){
+        alert("Please enter a name");
+        return;
+    }
+    const linkUrl = baseUrl + "/persons/" + name;
+    fetch(linkUrl)
+    .then(r => r.json())
+    .then(rDetails => display(rDetails))
+    .catch(error => console.log(error));
+}
 
-const updatePlaceHoldert = (id, content) => {
-    const placeHolder = document.getElementById(id);
-    if (placeHolder){
-        placeHolder.innerText = content;
+function display(rDetails){
+    nameDisplay.innerText = "Name: " + rDetails.name;
+    surnameDisplay.innerText = "Surname: " + rDetails.surname;
+    ageDisplay.innerText = "Age: " + rDetails.age;
+}
+
+function addPerson(){
+    const name = nameTxt.value;
+    const surname = surnameTxt.value;
+    const age = String(ageTxt.value);
+    if(name === "" || surname === "" || age === ""){
+        alert("Please fill in form correctly");
+      return;
+    }
+    else{
+        const linkUrl = baseUrl + "/persons";
+
+        fetch(linkUrl,{
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"name": name, "surname": surname, "age": age}),
+        })
+        .then(r => r.json())
+        .then(rDetails => notify(rDetails))
+        .catch(error => console.log(error));
     }
 }
 
-
-const addPerson = () => {
-    const personName = document.getElementById("personName").value;
-    const personSurname = document.getElementById("personSurname").value;
-    const personAge = document.getElementById("personAge").value;
-
-    if (personName == "" || personSurname == "" || personAge == ""){
-        alert("Please fill in all delatils!!!");
-    }
-
-    console.log(personName + " " + personSurname + " " + personAge);
-}
-
-
-const findPerson = async () => {
-
+function notify(rDetails){
+    alert("This person has been added");
+    return;
 }
