@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30%;
+}
+
+h2 {
+    text-align: left;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.inputForm {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    justify-content: flex-start
+}
