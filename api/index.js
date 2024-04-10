@@ -26,14 +26,14 @@ app.listen(PORT, () => {
     console.log("[+] Listening on port: ", PORT);
 });
 
-app.post("/persons", (request, response) =>{
-    const addingPersonScheme = Joi.object({
+app.post("/persons/", (request, response) =>{
+    const addingPersonSchema = Joi.object({
         name: Joi.string().required(),
         surname: Joi.string().required(),
         age: Joi.number().required()
     });
 
-    const {error, value} = addingPersonScheme.validate(request.body);
+    const {error, value} = addingPersonSchema.validate(request.body);
     if (error) {
         response.status(400).send(error.details[0].message);
         return;
@@ -48,7 +48,7 @@ app.post("/persons", (request, response) =>{
 
     persons.push(person);
     GlobalPersonCount++;
-    request.status(200).send(car);
+    response.status(200).send(person);
 });
 
 app.get("/persons/:name", (request, response) => {
