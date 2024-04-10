@@ -7,7 +7,7 @@ const displayBtn = document.getElementById("displayPersonButton");
 const nameDisplay = document.getElementById("nameDisplay");
 const surnameDisplay = document.getElementById("surnameDisplay");
 const ageDisplay = document.getElementById("ageDisplay");
-const baseUrl = "http://localhost:3000";
+const baseUrl = "https://practice-example-api.azurewebsites.net";
 
 addPersonBtn.addEventListener("click", (e) =>{
      addPerson();
@@ -51,7 +51,8 @@ function addPerson(){
         fetch(linkUrl,{
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'mode': "cors",
             },
             body: JSON.stringify({"name": name, "surname": surname, "age": age}),
         })
